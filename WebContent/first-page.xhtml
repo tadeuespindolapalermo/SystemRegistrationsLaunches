@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+      	
+	<h:head>
+		<title>Page JSF</title>
+	</h:head>
+	
+	<h:body>
+		<h:form id="formPeople">
+		
+			<h1>Form Test</h1>
+			
+			Name:			
+			<h:inputText id="fieldName" value="#{peopleBean.name}" /><br />
+			
+			<!-- Last Name:
+			<h:inputText id="fieldLastName" value="#{peopleBean.lastName}" /><br />-->
+			
+			<h:commandButton value="Add Name" action="#{peopleBean.addName}" />
+			<h:commandButton value="Clear Fields" action="#{peopleBean.clearFields}" />
+			<h:commandButton value="Remove All Names" action="#{peopleBean.removeAllNames}" />
+			<h:commandButton value="Remove Last Name" action="#{peopleBean.removeLastName}" />
+			
+			<h:dataTable value="#{peopleBean.names}" var="name">
+				<h:column>
+					<h:outputText value="#{name}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</h:body>
+</html>
