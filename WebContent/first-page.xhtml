@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html">
       	
 	<h:head>
-		<title>Page JSF</title>
+		<title>Page JSF - Form Test</title>
 	</h:head>
 	
 	<h:body>
@@ -18,7 +18,7 @@
 			<!-- Last Name:
 			<h:inputText id="fieldLastName" value="#{peopleBean.lastName}" /><br />-->
 			
-			<h:commandButton value="Add Name" action="#{peopleBean.addName}" />
+			<h:commandButton binding="#{peopleBean.commandButton}" value="Add Name" action="#{peopleBean.addName}" />
 			<h:commandButton value="Clear Fields" action="#{peopleBean.clearFields}" />
 			<h:commandButton value="Remove All Names" action="#{peopleBean.removeAllNames}" />
 			<h:commandButton value="Remove Last Name" action="#{peopleBean.removeLastName}" />

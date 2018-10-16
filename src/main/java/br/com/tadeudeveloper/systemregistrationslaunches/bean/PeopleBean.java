@@ -3,41 +3,53 @@ package br.com.tadeudeveloper.systemregistrationslaunches.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
+//import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.html.HtmlCommandButton;
 //import javax.faces.bean.SessionScoped;
-//import javax.faces.bean.ViewScoped;
+import javax.faces.bean.ViewScoped;
 //import javax.faces.bean.RequestScoped;
 //import javax.faces.bean.NoneScoped;
 
 //@RequestScoped // default
 @ManagedBean(name = "peopleBean")
 //@NoneScoped
-//@ViewScoped 
+@ViewScoped 
 //@SessionScoped
-@ApplicationScoped
+//@ApplicationScoped
 public class PeopleBean {
 	
 	private String name;
 	private String lastName;
-	private String fullName;
+	private String fullName;	
+	private HtmlCommandButton commandButton;
 	
 	private List<String> names = new ArrayList<>();
 	
-	public String addName() {
-		names.add(name);
+	public String addName() throws InterruptedException {
+		if (!name.isEmpty()) {
+			names.add(name);
+		}		
+		if (names.size() == 5) {
+			commandButton.setDisabled(true);			
+			return "navigated-page?faces-redirect=true";
+		}		
 		return "";
 	}
 	
 	public String removeAllNames() {
-		names.removeAll(names);		
+		names.removeAll(names);	
+		commandButton.setDisabled(false);
 		return "";
 	}
 	
 	public String removeLastName() {			
 		if (names.size() > 0) {
-			names.remove(names.size() - 1);
-		} 
+			names.remove(names.size() - 1);		
+			if (names.size() < 5) {
+				commandButton.setDisabled(false);
+			}
+		} 		
 		return "";
 	}
 	
@@ -45,6 +57,14 @@ public class PeopleBean {
 		name = "";
 		lastName = "";
 		return "";
+	}
+	
+	public HtmlCommandButton getCommandButton() {
+		return commandButton;
+	}
+	
+	public void setCommandButton(HtmlCommandButton commandButton) {
+		this.commandButton = commandButton;
 	}
 	
 	public List<String> getNames() {
