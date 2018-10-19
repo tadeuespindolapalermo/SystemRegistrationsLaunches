@@ -20,9 +20,12 @@ import javax.faces.bean.ViewScoped;
 public class PeopleBean {
 	
 	private String name;
+	private String nameTwo;
 	private String lastName;
 	private String fullName;	
-	private HtmlCommandButton commandButton;
+	private HtmlCommandButton commandButton;	
+	private String password;
+	private String text;
 	
 	private List<String> names = new ArrayList<>();
 	
@@ -83,6 +86,14 @@ public class PeopleBean {
 		this.name = name;
 	}
 	
+	public String getNameTwo() {
+		return nameTwo;
+	}
+	
+	public void setNameTwo(String nameTwo) {
+		this.nameTwo = nameTwo;
+	}
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -98,5 +109,21 @@ public class PeopleBean {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}	
 	
 }

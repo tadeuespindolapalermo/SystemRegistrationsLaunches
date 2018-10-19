@@ -14,6 +14,10 @@
 			
 			Name:			
 			<h:inputText id="fieldName" value="#{peopleBean.name}" /><br />
+			Password:
+			<h:inputSecret id="password" value="#{peopleBean.password}"/><br />
+			Text: <br />
+			<h:inputTextarea id="text" value="#{peopleBean.text}" rows="10" cols="10" /> <br />
 			
 			<!-- Last Name:
 			<h:inputText id="fieldLastName" value="#{peopleBean.lastName}" /><br />-->
@@ -28,6 +32,11 @@
 					<h:outputText value="#{name}" />
 				</h:column>
 			</h:dataTable>
+			
+			<h:outputText value="---------------------------"/><br />
+			<h:outputText value="#{peopleBean.nameTwo}"/><br />			
+			<h:outputLabel value="Name Two:" for="fieldNameTwo"/>
+			<h:inputText id="fieldNameTwo" value="#{peopleBean.nameTwo}"/>
 		</h:form>
 	</h:body>
 </html>
