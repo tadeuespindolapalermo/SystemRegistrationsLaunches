@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="FirstProjectJSF">
+	<persistence-unit name="SystemRegistrationsLaunches">
+	
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <provider>org.hibernate.ejb.HibernatePersistenceProvider</provider> --> 
+	
+		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.People</class>		
+		
+		<properties>		
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/systemregistrationslaunches"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="postgres1985"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>	
+			<!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
+			
+			<!-- MySQL --> 	
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/systemregistrationslaunches"/>
+			<property name="javax.persistence.jdbc.user" value="mysql"/>
+			<property name="javax.persistence.jdbc.password" value="mysql1985"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>  -->
+		</properties>
+	
 	</persistence-unit>
 </persistence>

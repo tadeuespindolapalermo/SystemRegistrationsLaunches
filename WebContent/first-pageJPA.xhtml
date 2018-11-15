@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      	
+	<h:head>
+		<title>Page JSF With JPA - Form Test</title>
+	</h:head>
+	
+	<h:body>
+		<h:form id="formPeople">
+		
+			<h1>Hello JSF With JPA</h1>		
+			
+			<h:outputLabel value="Id: "/>
+			<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true"/>			
+			
+			<br />
+			<h:outputLabel value="Name: "/>
+			<h:inputText value="#{peopleBeanJPA.people.name}"/>
+			
+			<br />
+			<h:outputLabel value="Last Name: "/>
+			<h:inputText value="#{peopleBeanJPA.people.lastName}"/>
+			
+			<br />
+			<h:outputLabel value="Age: "/>
+			<h:inputText value="#{peopleBeanJPA.people.age}"/>
+			
+			<br />
+			<!-- <h:outputLabel value="Date Birth: "/>
+			<h:inputText value="#{peopleBeanJPA.people.dateBirth}"/> -->
+			
+			<br />
+			<h:commandButton value="New People" action="#{peopleBeanJPA.newPeople}" />
+			<h:commandButton value="Save" action="#{peopleBeanJPA.save}" />
+			<h:commandButton value="Delete" action="#{peopleBeanJPA.remove}" />
+			
+			<h:dataTable value="#{peopleBeanJPA.peoples}" var="p">
+				<h:column>
+					<h:outputText value="#{p.id}" />
+				</h:column>
+				
+				<h:column>
+					<h:outputText value="#{p.age}" />
+				</h:column>
+				
+				<h:column>
+					<h:outputText value="#{p.name}" />
+				</h:column>
+				
+				<h:column>
+					<h:outputText value="#{p.lastName}" />
+				</h:column>
+				
+				<h:column>
+					<h:commandLink value="Edit">
+						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
+					</h:commandLink>
+				</h:column>
+				
+				<h:column>
+					<h:commandLink value="Delete" action="#{peopleBeanJPA.remove}">
+						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
+					</h:commandLink>
+				</h:column>
+			
+			</h:dataTable>
+			
+		</h:form>
+	</h:body>
+</html>
