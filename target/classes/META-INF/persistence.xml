@@ -3,9 +3,10 @@
 	<persistence-unit name="SystemRegistrationsLaunches">
 	
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <jta-data-source>jdbc/SystemRegistrationsLaunchesDS</jta-data-source> -->
 		<!-- <provider>org.hibernate.ejb.HibernatePersistenceProvider</provider> --> 
 	
-		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.People</class>		
+		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.People</class>			
 		
 		<properties>		
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/systemregistrationslaunches"/>
@@ -15,7 +16,7 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>	
-			<!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
+			<property name="hibernate.hbm2ddl.auto" value="update"/>			
 			
 			<!-- MySQL --> 	
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/systemregistrationslaunches"/>
@@ -23,7 +24,7 @@
 			<property name="javax.persistence.jdbc.password" value="mysql1985"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>  -->
-		</properties>
+		</properties> 
 	
 	</persistence-unit>
 </persistence>

@@ -4,26 +4,15 @@
       xmlns:h="http://java.sun.com/jsf/html">
       	
 	<h:head>
-		<title>Page JSF - Start</title>
-		<script>
-			function changeFieldValue() {
-				var field = document.getElementById('formPeople:click');
-				field.value = 'Field successfully clicked!';
-			}
-		</script>
+		<title>Login</title>
 	</h:head>
 	
 	<h:body>
-		<h:form id="formPeople">
+		<h:form id="formLogin">
 		
-			<h1>Start</h1>
+			<h1>Realize o Login</h1>
 			
-			<h:inputText id="click" onclick="this.value='Exchange Value'"
-				onchange="this.value = this.value.toUpperCase();"></h:inputText>
-			<h:commandButton value="To Click" onclick="changeFieldValue()"/><br />
 					
-			<h:commandButton value="To Sail" action="first-page"/>	
-			<h:commandButton value="Explicit Navigation" action="explicit"/>			
 		</h:form>
 	</h:body>
 </html>

@@ -5,69 +5,120 @@
       xmlns:f="http://java.sun.com/jsf/core">
       	
 	<h:head>
-		<title>Page JSF With JPA - Form Test</title>
+		<title>User Registration</title>
 	</h:head>
 	
 	<h:body>
-		<h:form id="formPeople">
-		
-			<h1>Hello JSF With JPA</h1>		
+		<h:form id="formPeople">							
+						
+			<h:panelGrid columns="2">	
+				<f:facet name="header">
+					<h:outputText value="User Registration"/>
+				</f:facet>
+					
+				<h:outputLabel value="Id:"/>
+				<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true"/>			
+				
+				<h:outputLabel value="Name:"/>
+				<h:inputText value="#{peopleBeanJPA.people.name}"/>
+				
+				<h:outputLabel value="Last Name:"/>
+				<h:inputText value="#{peopleBeanJPA.people.lastName}"/>
+				
+				<h:outputLabel value="Age:"/>
+				<h:inputText value="#{peopleBeanJPA.people.age}"/>
+				
+				<h:outputLabel value="Sex:" />
+				<h:selectOneMenu id="fieldSex" value="#{peopleBeanJPA.people.sex}" required="false">
+					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true"/>
+					<f:selectItem itemValue="MASCULINO" itemLabel="Masculino"/>
+					<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel value="Frameworks"/>
+				<h:selectManyMenu id="fieldFrameworks" value="#{peopleBeanJPA.people.frameworks}" 
+				style="height:150px">
+					<f:selectItem itemValue="Hibernate" />
+					<f:selectItem itemValue="Spring MVC" />
+					<f:selectItem itemValue="JPA" />
+					<f:selectItem itemValue="Primefaces" />
+					<f:selectItem itemValue="JSF" />					
+				</h:selectManyMenu>
+				
+				<h:outputLabel value="Active:"/>
+				<h:selectBooleanCheckbox value="#{peopleBeanJPA.people.active}"/>
+				
+				<h:outputLabel value="Login:"/>
+				<h:inputText value="#{peopleBeanJPA.people.login}"/>
+				
+				<h:outputLabel value="Password: "/>
+				<h:inputSecret value="#{peopleBeanJPA.people.password}"/>
+				
+				<h:outputLabel value="Profile:" />
+				<h:selectOneMenu id="fieldProfile" value="#{peopleBeanJPA.people.profileUser}" required="false">
+					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true"/>
+					<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador"/>
+					<f:selectItem itemValue="SECRETÁRIO" itemLabel="Secretário"/>
+					<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista"/>
+				</h:selectOneMenu>
+				
+				<!-- <h:outputLabel value="Date Birth: "/>
+				<h:inputText value="#{peopleBeanJPA.people.dateBirth}"/> -->			
+				
+				<!-- <h:outputLabel /> -->				
+				<h:panelGroup>
+					<h:commandButton value="New People" action="#{peopleBeanJPA.newPeople}" 
+					title="Add People" image="resources/img/new.png"/>
+					<h:commandButton value="Save" action="#{peopleBeanJPA.save}" 
+					title="Save People" image="resources/img/save.png"/>
+					<h:commandButton value="Delete" action="#{peopleBeanJPA.remove}" />
+					<h:commandButton value="Clean" type="reset" />
+				</h:panelGroup>								
+			</h:panelGrid>		
 			
-			<h:outputLabel value="Id: "/>
-			<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true"/>			
-			
-			<br />
-			<h:outputLabel value="Name: "/>
-			<h:inputText value="#{peopleBeanJPA.people.name}"/>
-			
-			<br />
-			<h:outputLabel value="Last Name: "/>
-			<h:inputText value="#{peopleBeanJPA.people.lastName}"/>
-			
-			<br />
-			<h:outputLabel value="Age: "/>
-			<h:inputText value="#{peopleBeanJPA.people.age}"/>
-			
-			<br />
-			<!-- <h:outputLabel value="Date Birth: "/>
-			<h:inputText value="#{peopleBeanJPA.people.dateBirth}"/> -->
-			
-			<br />
-			<h:commandButton value="New People" action="#{peopleBeanJPA.newPeople}" />
-			<h:commandButton value="Save" action="#{peopleBeanJPA.save}" />
-			<h:commandButton value="Delete" action="#{peopleBeanJPA.remove}" />
-			
-			<h:dataTable value="#{peopleBeanJPA.peoples}" var="p">
+			<h:dataTable value="#{peopleBeanJPA.peoples}" var="p" border="3" cellpadding="6">				
+				<f:facet name="header">List of Registered Users</f:facet>
 				<h:column>
+					<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{p.id}" />
 				</h:column>
 				
 				<h:column>
+					<f:facet name="header">Age</f:facet>
 					<h:outputText value="#{p.age}" />
 				</h:column>
 				
 				<h:column>
+					<f:facet name="header">Name</f:facet>
 					<h:outputText value="#{p.name}" />
 				</h:column>
 				
 				<h:column>
+					<f:facet name="header">Last Name</f:facet>
 					<h:outputText value="#{p.lastName}" />
 				</h:column>
 				
 				<h:column>
-					<h:commandLink value="Edit">
-						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
-					</h:commandLink>
-				</h:column>
+					<f:facet name="header">Sex</f:facet>
+					<h:outputText value="#{p.sex}" />
+				</h:column>			
 				
 				<h:column>
-					<h:commandLink value="Delete" action="#{peopleBeanJPA.remove}">
+					<f:facet name="header">Edit</f:facet>
+					<h:commandLink value="" title="Edit">
 						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
+						<h:graphicImage value="/resources/img/edit.png"/>
+					</h:commandLink>					
+				</h:column>	
+				
+				<h:column>	
+					<f:facet name="header">Delete</f:facet>	
+					<h:commandLink value="" action="#{peopleBeanJPA.remove}" title="Remove">
+						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
+						<h:graphicImage value="/resources/img/remove.png"/>
 					</h:commandLink>
-				</h:column>
-			
-			</h:dataTable>
-			
+				</h:column>			
+			</h:dataTable>			
 		</h:form>
 	</h:body>
 </html>

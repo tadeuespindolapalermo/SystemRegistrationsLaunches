@@ -22,9 +22,15 @@ public class People implements Serializable {
 	private String name;		
 	private String lastName;		
 	private Integer age;
+	private String sex;	
+	private String[] frameworks;
+	private Boolean active;
+	private String login;
+	private String password;
+	private String profileUser;
 	
 	@Temporal(TemporalType.DATE)
-	private Date dateBirth;	
+	private Date dateBirth;		
 	
 	public People() {}
 
@@ -66,6 +72,54 @@ public class People implements Serializable {
 
 	public void setDateBirth(Date dateBirth) {
 		this.dateBirth = dateBirth;
+	}
+	
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	
+	public String getSex() {
+		return sex;
+	}
+	
+	public void setFrameworks(String[] frameworks) {
+		this.frameworks = frameworks;
+	}
+	
+	public String[] getFrameworks() {
+		return frameworks;
+	}		
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}	
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setProfileUser(String profileUser) {
+		this.profileUser = profileUser;
+	}
+	
+	public String getProfileUser() {
+		return profileUser;
 	}
 
 	@Override
