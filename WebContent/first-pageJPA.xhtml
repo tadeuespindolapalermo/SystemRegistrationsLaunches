@@ -2,38 +2,59 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
       	
 	<h:head>
 		<title>User Registration</title>
-	</h:head>
+	</h:head>	
 	
 	<h:body>
-		<h:form id="formPeople">							
-						
+		<ui:include src="/menu.xhtml" />
+		
+		<h:form id="formPeople" rendered="#{peopleBeanJPA.allowAccess('ADMIN')}"
+		style="margin-left: 35%;">		
+		
+			<h:messages infoStyle="color:green" errorStyle="color:red" warnStyle="color:yellow"/>
+					
 			<h:panelGrid columns="2">	
 				<f:facet name="header">
 					<h:outputText value="User Registration"/>
 				</f:facet>
-					
+				
 				<h:outputLabel value="Id:"/>
-				<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true"/>			
+				<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true" />			
 				
 				<h:outputLabel value="Name:"/>
-				<h:inputText value="#{peopleBeanJPA.people.name}"/>
+				<h:inputText value="#{peopleBeanJPA.people.name}" required="false"
+				 requiredMessage="Enter the user name" validatorMessage="Enter the name with a minimum of 5 and a maximum of 50 characters"
+				 valueChangeListener="#{peopleBeanJPA.changeValue}">
+					<!-- <f:validateLength minimum="5" maximum="50"/> -->
+				</h:inputText>
 				
 				<h:outputLabel value="Last Name:"/>
-				<h:inputText value="#{peopleBeanJPA.people.lastName}"/>
+				<h:inputText value="#{peopleBeanJPA.people.lastName}" valueChangeListener="#{peopleBeanJPA.changeValueLastName}"/>
 				
 				<h:outputLabel value="Age:"/>
 				<h:inputText value="#{peopleBeanJPA.people.age}"/>
 				
+				<h:outputLabel value="CPF:"/>
+				<h:inputText value="#{peopleBeanJPA.people.cpf}"/>
+				
+				<h:outputLabel value="Electoral Title:"/>
+				<h:inputText value="#{peopleBeanJPA.people.electoralTitle}"/>
+				
+				<h:outputLabel value="Date Birth: " />
+				<h:inputText value="#{peopleBeanJPA.people.dateBirth}" converterMessage="Error date">				
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-03:00" />
+				</h:inputText>
+				
 				<h:outputLabel value="Sex:" />
 				<h:selectOneMenu id="fieldSex" value="#{peopleBeanJPA.people.sex}" required="false">
 					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true"/>
-					<f:selectItem itemValue="MASCULINO" itemLabel="Masculino"/>
-					<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
-				</h:selectOneMenu>
+					<f:selectItem itemValue="MALE" itemLabel="Male"/>
+					<f:selectItem itemValue="FEMALE" itemLabel="Female"/>
+				</h:selectOneMenu>			
 				
 				<h:outputLabel value="Frameworks"/>
 				<h:selectManyMenu id="fieldFrameworks" value="#{peopleBeanJPA.people.frameworks}" 
@@ -56,26 +77,75 @@
 				
 				<h:outputLabel value="Profile:" />
 				<h:selectOneMenu id="fieldProfile" value="#{peopleBeanJPA.people.profileUser}" required="false">
-					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true"/>
-					<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador"/>
-					<f:selectItem itemValue="SECRETÁRIO" itemLabel="Secretário"/>
-					<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista"/>
+					<f:selectItem itemLabel="[-Select-]" noSelectionOption="true"/>
+					<f:selectItem itemValue="ADMIN" itemLabel="Administrator"/>
+					<f:selectItem itemValue="SECRETARY" itemLabel="Secretary"/>
+					<f:selectItem itemValue="RECEPTIONIST" itemLabel="Receptionist"/>
 				</h:selectOneMenu>
 				
-				<!-- <h:outputLabel value="Date Birth: "/>
-				<h:inputText value="#{peopleBeanJPA.people.dateBirth}"/> -->			
+				<h:outputLabel value="Programmer Level"/>
+				<h:selectOneRadio value="#{peopleBeanJPA.people.programmerLevel}" layout="pageDirection">
+					<f:selectItem itemValue="JU" itemLabel="Junior"/>
+					<f:selectItem itemValue="PL" itemLabel="Pleno"/>
+					<f:selectItem itemValue="SE" itemLabel="Senior"/>
+					<f:selectItem itemValue="SP" itemLabel="Specialist"/>
+				</h:selectOneRadio>
+				
+				<h:outputLabel value="Languages:"/>
+				<h:selectManyCheckbox value="#{peopleBeanJPA.people.languages}">
+					<f:selectItem itemValue="1" itemLabel="Java"/>
+					<f:selectItem itemValue="2" itemLabel="PHP"/>
+					<f:selectItem itemValue="3" itemLabel="Python"/>
+					<f:selectItem itemValue="4" itemLabel="C#"/>
+					<f:selectItem itemValue="5" itemLabel="Cobol"/>
+				</h:selectManyCheckbox>					
 				
 				<!-- <h:outputLabel /> -->				
 				<h:panelGroup>
-					<h:commandButton value="New People" action="#{peopleBeanJPA.newPeople}" 
-					title="Add People" image="resources/img/new.png"/>
-					<h:commandButton value="Save" action="#{peopleBeanJPA.save}" 
-					title="Save People" image="resources/img/save.png"/>
-					<h:commandButton value="Delete" action="#{peopleBeanJPA.remove}" />
-					<h:commandButton value="Clean" type="reset" />
+					<br />	
+					<h:commandButton 						
+						value="New People"
+						id="btnNew" 						
+						action="#{peopleBeanJPA.newPeople}" 
+						title="Add People" 
+						image="resources/img/new.png"
+						immediate="true">
+						<f:ajax execute="btnNew" render="@form" />
+					</h:commandButton>
+						
+					<h:commandButton 
+						style="margin-left: 1cm;" 
+						value="Save" 
+						actionListener="#{peopleBeanJPA.registerLog}"
+						action="#{peopleBeanJPA.save}" 
+						title="Save People" 
+						image="resources/img/save.png"
+					/>
+					
+					<h:commandButton 
+						style="margin-left: 1cm;"
+						value="Delete" 
+						action="#{peopleBeanJPA.remove}"
+						title="Remove People" 
+						image="resources/img/remove.png" 
+						immediate="true" 
+					/>
+					
+					<h:commandButton 
+						style="margin-left: 1cm;" 
+						value="Clean" 
+						id="btnClean"
+						action="#{peopleBeanJPA.cleanForm}"
+						title="Clean Form" 
+						image="resources/img/clean.png" 
+						immediate="true" >
+						<f:ajax execute="btnClean" render="@form" />
+					</h:commandButton>
 				</h:panelGroup>								
-			</h:panelGrid>		
-			
+			</h:panelGrid>
+		</h:form>		
+		<br />	
+		<h:form id="formTable" style="margin-left: 35%;">
 			<h:dataTable value="#{peopleBeanJPA.peoples}" var="p" border="3" cellpadding="6">				
 				<f:facet name="header">List of Registered Users</f:facet>
 				<h:column>
@@ -105,7 +175,7 @@
 				
 				<h:column>
 					<f:facet name="header">Edit</f:facet>
-					<h:commandLink value="" title="Edit">
+					<h:commandLink value="" title="Edit" immediate="true">
 						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
 						<h:graphicImage value="/resources/img/edit.png"/>
 					</h:commandLink>					
@@ -113,12 +183,12 @@
 				
 				<h:column>	
 					<f:facet name="header">Delete</f:facet>	
-					<h:commandLink value="" action="#{peopleBeanJPA.remove}" title="Remove">
+					<h:commandLink value="" action="#{peopleBeanJPA.remove}" title="Remove" immediate="true">
 						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
 						<h:graphicImage value="/resources/img/remove.png"/>
 					</h:commandLink>
 				</h:column>			
-			</h:dataTable>			
+			</h:dataTable>		
 		</h:form>
 	</h:body>
 </html>

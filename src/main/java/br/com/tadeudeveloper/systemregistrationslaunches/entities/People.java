@@ -9,6 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.constraints.br.TituloEleitoral;
 
 @Entity
 public class People implements Serializable {	
@@ -19,15 +27,32 @@ public class People implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;	
 	
-	private String name;		
+	@NotEmpty
+	@Size(min=5, max=50, message = "Enter the name with a minimum of 5 and a maximum of 50 characters")
+	private String name;	
+	
+	@NotEmpty(message = "Last Name is required")
+	@NotNull(message = "Last Name is required")	
 	private String lastName;		
+	
+	@DecimalMax(message = "Age must be less than 50", value="50")
+	@DecimalMin(message = "Age must be greater than 10", value="10")
 	private Integer age;
-	private String sex;	
+	
+	@CPF(message = "CPF invalid!")
+	private String cpf;
+	
+	@TituloEleitoral(message = "Electoral Title invalid!")
+	private String electoralTitle;
+	
+	private String sex;		
 	private String[] frameworks;
+	private Integer[] languages;
 	private Boolean active;
 	private String login;
 	private String password;
 	private String profileUser;
+	private String programmerLevel;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dateBirth;		
@@ -120,6 +145,38 @@ public class People implements Serializable {
 	
 	public String getProfileUser() {
 		return profileUser;
+	}
+	
+	public void setProgrammerLevel(String programmerLevel) {
+		this.programmerLevel = programmerLevel;
+	}
+	
+	public String getProgrammerLevel() {
+		return programmerLevel;
+	}
+	
+	public void setLanguages(Integer[] languages) {
+		this.languages = languages;
+	}
+	
+	public Integer[] getLanguages() {
+		return languages;
+	}	
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getElectoralTitle() {
+		return electoralTitle;
+	}
+
+	public void setElectoralTitle(String electoralTitle) {
+		this.electoralTitle = electoralTitle;
 	}
 
 	@Override

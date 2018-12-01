@@ -2,6 +2,7 @@ package br.com.tadeudeveloper.systemregistrationslaunches.filter;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,6 +20,9 @@ import br.com.tadeudeveloper.systemregistrationslaunches.util.JPAUtil;
 @WebFilter(urlPatterns = "/*")
 public class FilterAuthentication implements Filter {
 	
+	@Inject
+	private JPAUtil jpaUtil;
+	
 	@Override
 	public void destroy() {
 		
@@ -29,9 +33,10 @@ public class FilterAuthentication implements Filter {
 			throws IOException, ServletException {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
-		HttpSession session = req.getSession();
+		HttpSession session = req.getSession();		
 		
 		People userLogged = (People) session.getAttribute("userLogged");
+		//String userLogged = (String) session.getAttribute("userLogged");
 		
 		String url = req.getServletPath();
 		
@@ -42,12 +47,23 @@ public class FilterAuthentication implements Filter {
 		} else {
 			// Executa as ações do request e do response
 			chain.doFilter(request, response);
-		}		
+		}
+		
+		/*if(!url.equalsIgnoreCase("index.jsf")  && userLogged == null ||
+				(userLogged != null && userLogged.trim().isEmpty())) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsf");
+			dispatcher.forward(request, response);
+			return;
+		} else {
+			// Executa as ações do request e do response
+			chain.doFilter(request, response);
+		}*/
 	}
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		JPAUtil.geEntityManager();
+		//JPAUtil.geEntityManager();
+		jpaUtil.geEntityManager();
 	}	
 	
 }

@@ -8,10 +8,19 @@
 	</h:head>
 	
 	<h:body>
-		<h:form id="formLogin">
+		<h:form id="formLogin" style="margin-top: 18%; margin-left: 40%;">
 		
-			<h1>Realize o Login</h1>
+			<h1>Sign in</h1>
 			
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Login:"/>
+				<h:inputText value="#{peopleBeanJPA.people.login}" />
+				
+				<h:outputLabel value="Password:"/>
+				<h:inputSecret value="#{peopleBeanJPA.people.password}" />
+				
+				<h:commandButton value="Access" action="#{peopleBeanJPA.access}"/>
+			</h:panelGrid>			
 					
 		</h:form>
 	</h:body>

@@ -1,24 +1,30 @@
 package br.com.tadeudeveloper.systemregistrationslaunches.util;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+@ApplicationScoped
 public class JPAUtil {
 
-	private static EntityManagerFactory factory;
+	private EntityManagerFactory factory;
 	
-	static {
+	public JPAUtil() {
 		if (factory == null) {
 			factory = Persistence.createEntityManagerFactory("SystemRegistrationsLaunches");
-		}			
-	}
+		}	
+	}	
 	
-	public static EntityManager geEntityManager() {
+	@Produces
+	@RequestScoped
+	public EntityManager geEntityManager() {
 		return factory.createEntityManager();
 	}
 	
-	public static Object getPrimaryKey(Object entity) {
+	public Object getPrimaryKey(Object entity) {
 		return factory.getPersistenceUnitUtil().getIdentifier(entity);
 	}
 	

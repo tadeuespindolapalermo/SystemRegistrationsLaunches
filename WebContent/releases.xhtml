@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      	
+	<h:head>
+		<title>Releases</title>
+	</h:head>
+	
+	<h:body>	
+		<ui:include src="/menu.xhtml" />	
+			
+		<h:form id="formReleases" style="margin-top: 10%; margin-left: 35%;">		
+		
+			<h:panelGrid columns="2">
+				<f:facet name="header">
+					<h:outputText value="Releases"/>						
+				</f:facet>
+				
+				<h:outputLabel value="ID:"/>
+				<h:inputText value="#{releaseBean.release.id}" readonly="true"/>
+				
+				<h:outputLabel value="Invoice:"/>
+				<h:inputText value="#{releaseBean.release.invoiceNumber}"/>
+				
+				<h:outputLabel value="Company Origin:"/>
+				<h:inputText value="#{releaseBean.release.companyOrigin}"/>
+				
+				<h:outputLabel value="Destination Company:"/>
+				<h:inputText value="#{releaseBean.release.destinationCompany}"/>					
+			</h:panelGrid>	
+				
+			<h:panelGroup>
+				<br />	
+				<h:commandButton id="btnNew" style="margin-left: 1cm;" value="New People" action="#{releaseBean.newRelease}" 
+					title="Add Release" image="resources/img/new.png">
+					<f:ajax execute="btnNew" render="@form" />
+				</h:commandButton>
+				
+				<h:commandButton style="margin-left: 1cm;" value="Save" action="#{releaseBean.save}" 
+				title="Save Release" image="resources/img/save.png"/>
+				
+				<h:commandButton style="margin-left: 1cm;" value="Delete" action="#{releaseBean.remove}"
+				title="Remove Release" image="resources/img/remove.png" rendered="#{peopleBeanJPA.allowAccess('ADMIN')}"/>
+				
+				<h:commandButton id="btnClean" style="margin-left: 1cm;" value="Clean" type="reset" 
+					title="Clean Form" image="resources/img/clean.png" >
+					<f:ajax execute="btnClean" render="@form" />
+				</h:commandButton>							
+			</h:panelGroup>
+		</h:form>
+		
+		<h:form id="formTable" style="margin-left: 35%;">
+			<br />	<br />
+			<h:dataTable value="#{releaseBean.releases}" var="r" border="3">
+				
+				<f:facet name="header">List of Release</f:facet>
+				
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputLabel value="#{r.id}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Invoice</f:facet>
+					<h:outputLabel value="#{r.invoiceNumber}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Company Origin</f:facet>
+					<h:outputLabel value="#{r.companyOrigin}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Destination Company</f:facet>
+					<h:outputLabel value="#{r.destinationCompany}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">User</f:facet>
+					<h:outputLabel value="#{r.user.name}"/>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Edit</f:facet>
+					<h:commandLink title="Edit">
+						<h:graphicImage value="/resources/img/edit.png" />
+						<f:setPropertyActionListener value="#{r}" target="#{releaseBean.release}" />
+					</h:commandLink>
+				</h:column>
+				
+				<h:column>	
+					<f:facet name="header">Delete</f:facet>	
+					<h:commandLink value="" action="#{releaseBean.remove}" title="Remove">
+						<f:setPropertyActionListener value="#{r}" target="#{releaseBean.release}" />
+						<h:graphicImage value="/resources/img/remove.png"/>
+					</h:commandLink>
+				</h:column>	
+			</h:dataTable>
+		</h:form>		
+	</h:body>
+</html>
