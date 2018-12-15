@@ -9,7 +9,7 @@
 			<h:commandLink style="margin-left: 1cm;" value="Administration" action="first-pageJPA"
 			rendered="#{peopleBeanJPA.allowAccess('ADMIN')}"/>
 			<h:commandLink style="margin-left: 1cm;" value="Releases" action="releases"/>
-			<h:commandLink style="margin-left: 1cm;" value="Change user" action="index"/>
+			<h:commandLink style="margin-left: 1cm;" value="Change user" action="#{peopleBeanJPA.dislodge}"/>
 		</h:form>	
 	</h:body>
 </html>

@@ -1,6 +1,11 @@
 package br.com.tadeudeveloper.systemregistrationslaunches.bean;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +15,14 @@ import javax.faces.application.FacesMessage;
 //import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.gson.Gson;
 
 import br.com.tadeudeveloper.systemregistrationslaunches.DAO.GenericDAO;
 import br.com.tadeudeveloper.systemregistrationslaunches.entities.People;
@@ -37,6 +46,36 @@ public class PeopleBeanJPA implements Serializable {
 	
 	@Inject
 	private InterfacePessoaDAO interfacePessoaDAO;
+	
+	public void searchCep(AjaxBehaviorEvent event) {
+		try {
+			URL url = new URL("https://viacep.com.br/ws/" + people.getCep() + "/json/");
+			URLConnection connection = url.openConnection();
+			InputStream inputStream = connection.getInputStream();
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+			String cep = "";
+			StringBuilder jsonCep = new StringBuilder();
+			while((cep = bufferedReader.readLine()) != null) {
+				jsonCep.append(cep);
+			}
+			
+			People gsonAux = new Gson().fromJson(jsonCep.toString(), People.class);			
+			
+			people.setCep(gsonAux.getCep());
+			people.setLogradouro(gsonAux.getLogradouro());
+			people.setComplemento(gsonAux.getComplemento());
+			people.setBairro(gsonAux.getBairro());
+			people.setLocalidade(gsonAux.getLocalidade());
+			people.setUf(gsonAux.getUf());
+			people.setUnidade(gsonAux.getUnidade());
+			people.setIbge(gsonAux.getIbge());
+			people.setGia(gsonAux.getGia());
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+			showMessage("Erro ao consultar o CEP!");
+		}
+	}
 	
 	public String save() {
 		try {
@@ -131,6 +170,22 @@ public class PeopleBeanJPA implements Serializable {
 			//externalContext.getSessionMap().put("userLogged", peopleSearch.getLogin());
 			return "first-pageJPA.jsf";
 		}		
+		return "index.jsf";
+	}
+	
+	public String dislodge() {		
+		// remove user in session
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.getSessionMap().remove("userLogged");	
+		
+		// Obtém o controle da sessão do usuário
+		HttpServletRequest httpServletRequest = (HttpServletRequest) 
+				context.getCurrentInstance().getExternalContext().getRequest();
+		
+		// invalida a sessão do usuário
+		httpServletRequest.getSession().invalidate();
+		
 		return "index.jsf";
 	}
 	

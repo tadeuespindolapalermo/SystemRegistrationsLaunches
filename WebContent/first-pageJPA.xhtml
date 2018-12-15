@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
       	
 	<h:head>
 		<title>User Registration</title>
@@ -28,7 +29,7 @@
 				<h:outputLabel value="Name:"/>
 				<h:inputText value="#{peopleBeanJPA.people.name}" required="false"
 				 requiredMessage="Enter the user name" validatorMessage="Enter the name with a minimum of 5 and a maximum of 50 characters"
-				 valueChangeListener="#{peopleBeanJPA.changeValue}">
+				 valueChangeListener="#{peopleBeanJPA.changeValue}" pt:placeholder="Informe o nome do usuário...">
 					<!-- <f:validateLength minimum="5" maximum="50"/> -->
 				</h:inputText>
 				
@@ -39,7 +40,7 @@
 				<h:inputText value="#{peopleBeanJPA.people.age}"/>
 				
 				<h:outputLabel value="CPF:"/>
-				<h:inputText value="#{peopleBeanJPA.people.cpf}"/>
+				<h:inputText value="#{peopleBeanJPA.people.cpf}" pt:placeholder="Informe um CPF válido..."/>
 				
 				<h:outputLabel value="Electoral Title:"/>
 				<h:inputText value="#{peopleBeanJPA.people.electoralTitle}"/>
@@ -65,6 +66,36 @@
 					<f:selectItem itemValue="Primefaces" />
 					<f:selectItem itemValue="JSF" />					
 				</h:selectManyMenu>
+				
+				<h:outputLabel value="CEP:"/>
+				<h:inputText value="#{peopleBeanJPA.people.cep}">
+					<f:ajax event="blur" execute="@this" listener="#{peopleBeanJPA.searchCep}"
+					render="logradouro complemento bairro localidade uf unidade ibge gia"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Logradouro:"/>
+				<h:inputText value="#{peopleBeanJPA.people.logradouro}" id="logradouro"/>
+				
+				<h:outputLabel value="Complemento:"/>
+				<h:inputText value="#{peopleBeanJPA.people.complemento}" id="complemento"/>
+				
+				<h:outputLabel value="Bairro:"/>
+				<h:inputText value="#{peopleBeanJPA.people.bairro}" id="bairro"/>
+				
+				<h:outputLabel value="Localidade:"/>
+				<h:inputText value="#{peopleBeanJPA.people.localidade}" id="localidade"/>
+				
+				<h:outputLabel value="UF:"/>
+				<h:inputText value="#{peopleBeanJPA.people.uf}" id="uf"/>
+				
+				<h:outputLabel value="Unidade:"/>
+				<h:inputText value="#{peopleBeanJPA.people.unidade}" id="unidade"/>
+				
+				<h:outputLabel value="IBGE:"/>
+				<h:inputText value="#{peopleBeanJPA.people.ibge}" id="ibge"/>
+				
+				<h:outputLabel value="GIA:"/>
+				<h:inputText value="#{peopleBeanJPA.people.gia}" id="gia"/>
 				
 				<h:outputLabel value="Active:"/>
 				<h:selectBooleanCheckbox value="#{peopleBeanJPA.people.active}"/>
