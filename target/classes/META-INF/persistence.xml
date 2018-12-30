@@ -8,6 +8,8 @@
 	
 		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.People</class>			
 		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.Release</class>
+		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.Estados</class>
+		<class>br.com.tadeudeveloper.systemregistrationslaunches.entities.Cidades</class>
 		
 		<properties>		
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/systemregistrationslaunches"/>

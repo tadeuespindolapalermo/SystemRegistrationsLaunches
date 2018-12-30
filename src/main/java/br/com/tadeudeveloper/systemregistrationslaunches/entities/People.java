@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
@@ -42,6 +44,12 @@ public class People implements Serializable {
 	private String password;
 	private String profileUser;
 	private String programmerLevel;
+	
+	@Transient
+	private Estados estados;
+	
+	@ManyToOne
+	private Cidades cidades;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -260,6 +268,22 @@ public class People implements Serializable {
 
 	public void setGia(String gia) {
 		this.gia = gia;
+	}
+	
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+	
+	public Estados getEstados() {
+		return estados;
+	}
+	
+	public void setCidades(Cidades cidades) {
+		this.cidades = cidades;
+	}
+	
+	public Cidades getCidades() {
+		return cidades;
 	}
 
 	@Override

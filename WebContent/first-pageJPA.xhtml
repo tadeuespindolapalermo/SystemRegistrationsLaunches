@@ -129,7 +129,23 @@
 					<f:selectItem itemValue="3" itemLabel="Python"/>
 					<f:selectItem itemValue="4" itemLabel="C#"/>
 					<f:selectItem itemValue="5" itemLabel="Cobol"/>
-				</h:selectManyCheckbox>					
+				</h:selectManyCheckbox>	
+				
+				<h:outputLabel value="States:"/>
+				<h:selectOneMenu value="#{peopleBeanJPA.people.estados}" immediate="true" 
+				id="comboEstado" converter="estadoConverter">
+					<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true"/>
+					<f:selectItems value="#{peopleBeanJPA.estados}"/>
+					<f:ajax event="change" execute="@this" 
+					listener="#{peopleBeanJPA.carregarCidades}" render="comboCidade"/>
+				</h:selectOneMenu>			
+				
+				<h:outputLabel value="Cities:"/>	
+				<h:selectOneMenu value="#{peopleBeanJPA.people.cidades}" immediate="true" 
+				id="comboCidade" converter="cidadeConverter">
+					<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true"/>
+					<f:selectItems value="#{peopleBeanJPA.cidades}"/>
+				</h:selectOneMenu>
 				
 				<!-- <h:outputLabel /> -->				
 				<h:panelGroup>
@@ -206,7 +222,7 @@
 				
 				<h:column>
 					<f:facet name="header">Edit</f:facet>
-					<h:commandLink value="" title="Edit" immediate="true">
+					<h:commandLink value="" title="Edit" immediate="true" action="#{peopleBeanJPA.editar}">
 						<f:setPropertyActionListener value="#{p}" target="#{peopleBeanJPA.people}" />
 						<h:graphicImage value="/resources/img/edit.png"/>
 					</h:commandLink>					

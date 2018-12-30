@@ -11,23 +11,29 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.html.HtmlSelectOneMenu;
 //import javax.faces.bean.ManagedBean;
 //import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 
 import br.com.tadeudeveloper.systemregistrationslaunches.DAO.GenericDAO;
+import br.com.tadeudeveloper.systemregistrationslaunches.entities.Cidades;
+import br.com.tadeudeveloper.systemregistrationslaunches.entities.Estados;
 import br.com.tadeudeveloper.systemregistrationslaunches.entities.People;
 import br.com.tadeudeveloper.systemregistrationslaunches.repository.InterfacePessoaDAO;
 //import br.com.tadeudeveloper.systemregistrationslaunches.repository.InterfacePessoaDAOImpl;
+import br.com.tadeudeveloper.systemregistrationslaunches.util.JPAUtil;
 
 ///@ManagedBean(name = "peopleBeanJPA")
 @Named(value = "peopleBeanJPA")
@@ -39,13 +45,17 @@ public class PeopleBeanJPA implements Serializable {
 	private People people = new People();	
 	private List<People> peoples = new ArrayList<>();
 	//private GenericDAO<People> genericDAO = new GenericDAO<>();	
-	//private InterfacePessoaDAO interfacePessoaDAO = new InterfacePessoaDAOImpl();
+	//private InterfacePessoaDAO interfacePessoaDAO = new InterfacePessoaDAOImpl();	
 	
 	@Inject
 	private GenericDAO<People> genericDAO;	
 	
 	@Inject
 	private InterfacePessoaDAO interfacePessoaDAO;
+	
+	private List<SelectItem> estados;
+	
+	private List<SelectItem> cidades;
 	
 	public void searchCep(AjaxBehaviorEvent event) {
 		try {
@@ -157,6 +167,92 @@ public class PeopleBeanJPA implements Serializable {
 		return people;
 	}
 	
+	public List<SelectItem> getEstados() {
+		estados = interfacePessoaDAO.listarEstados();
+		return estados;
+	}
+	
+	public List<SelectItem> getCidades() {
+		return cidades;
+	}
+	
+	public void setCidades(List<SelectItem> cidades) {
+		this.cidades = cidades;
+	}
+	
+	/*public void carregarCidades(AjaxBehaviorEvent event) {
+		
+		String codigoEstado = (String) event.getComponent().getAttributes().get("submittedValue");		
+		
+		if(codigoEstado != null) {
+			Estados estado = jpaUtil.getEntityManager().find(Estados.class, Long.parseLong(codigoEstado));
+			
+			if(estado != null) {
+				people.setEstados(estado);
+				
+				List<Cidades> cidades = jpaUtil.getEntityManager()
+						.createQuery("from Cidades where estados.id = " 
+						+ codigoEstado).getResultList();
+				
+				List<SelectItem> selectItemsCidade = new ArrayList<>();
+				for (Cidades cidade : cidades) {
+					selectItemsCidade.add(new SelectItem(cidade, cidade.getNome()));
+				}
+				setCidades(selectItemsCidade);
+			}
+		}
+	}*/
+	
+	public void carregarCidades(AjaxBehaviorEvent event) {		
+		
+		Estados estado = (Estados) ((HtmlSelectOneMenu)event.getSource()).getValue();	
+			
+		if(estado != null) {
+			people.setEstados(estado);
+			
+			/*List<Cidades> cidades = JPAUtil.getEntityManager()
+					.createQuery("from Cidades where estados.id = " 
+					+ estado.getId()).getResultList();*/
+			
+			TypedQuery<Cidades> cidadesQuery = JPAUtil.getEntityManager()
+					.createQuery("from Cidades where estados.id = " 
+					+ estado.getId(), Cidades.class);
+			
+			List<Cidades> cidades = cidadesQuery.getResultList();
+			
+			List<SelectItem> selectItemsCidade = new ArrayList<>();
+			for (Cidades cidade : cidades) {
+				selectItemsCidade.add(new SelectItem(cidade, cidade.getNome()));
+			}
+			setCidades(selectItemsCidade);
+		}
+	}
+	
+	public void editar() {
+		if (people.getCidades() != null) {
+			
+			Estados estado = people.getCidades().getEstados();
+			people.setEstados(estado);
+			
+			/*List<Cidades> cidades = JPAUtil.getEntityManager()
+					.createQuery("from Cidades where estados.id = " 
+					+ estado.getId()).getResultList();*/
+			
+			TypedQuery<Cidades> cidadesQuery = JPAUtil.getEntityManager()
+					.createQuery("from Cidades where estados.id = " 
+					+ estado.getId(), Cidades.class);
+			
+			List<Cidades> cidades = cidadesQuery.getResultList();
+			
+			List<SelectItem> selectItemsCidade = new ArrayList<>();
+			for (Cidades cidade : cidades) {
+				selectItemsCidade.add(new SelectItem(cidade, cidade.getNome()));
+			}
+			setCidades(selectItemsCidade);
+			
+		}
+	}
+	
 	public String access() {		
 		People peopleSearch = interfacePessoaDAO.searchUser(people.getLogin(), people.getPassword());		
 		if(peopleSearch != null) { // user OK
@@ -181,7 +277,7 @@ public class PeopleBeanJPA implements Serializable {
 		
 		// Obtém o controle da sessão do usuário
 		HttpServletRequest httpServletRequest = (HttpServletRequest) 
-				context.getCurrentInstance().getExternalContext().getRequest();
+				context.getExternalContext().getRequest();
 		
 		// invalida a sessão do usuário
 		httpServletRequest.getSession().invalidate();

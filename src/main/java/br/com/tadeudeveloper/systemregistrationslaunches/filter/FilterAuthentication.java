@@ -60,10 +60,11 @@ public class FilterAuthentication implements Filter {
 		}*/
 	}
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		//JPAUtil.geEntityManager();
-		jpaUtil.geEntityManager();
+		//JPAUtil.getEntityManager();
+		jpaUtil.getEntityManager();
 	}	
 	
 }

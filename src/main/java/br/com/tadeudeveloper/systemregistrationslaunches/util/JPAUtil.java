@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 @ApplicationScoped
 public class JPAUtil {
 
-	private EntityManagerFactory factory;
+	private static EntityManagerFactory factory;
 	
 	public JPAUtil() {
 		if (factory == null) {
@@ -20,7 +20,7 @@ public class JPAUtil {
 	
 	@Produces
 	@RequestScoped
-	public EntityManager geEntityManager() {
+	public static EntityManager getEntityManager() {
 		return factory.createEntityManager();
 	}
 	
