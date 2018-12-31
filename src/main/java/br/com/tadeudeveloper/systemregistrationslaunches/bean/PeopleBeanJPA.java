@@ -53,6 +53,9 @@ public class PeopleBeanJPA implements Serializable {
 	@Inject
 	private InterfacePessoaDAO interfacePessoaDAO;
 	
+	@Inject
+	private JPAUtil jpaUtil;
+	
 	private List<SelectItem> estados;
 	
 	private List<SelectItem> cidades;
@@ -210,11 +213,11 @@ public class PeopleBeanJPA implements Serializable {
 		if(estado != null) {
 			people.setEstados(estado);
 			
-			/*List<Cidades> cidades = JPAUtil.getEntityManager()
+			/*List<Cidades> cidades = jpaUtil.getEntityManager()
 					.createQuery("from Cidades where estados.id = " 
 					+ estado.getId()).getResultList();*/
 			
-			TypedQuery<Cidades> cidadesQuery = JPAUtil.getEntityManager()
+			TypedQuery<Cidades> cidadesQuery = jpaUtil.getEntityManager()
 					.createQuery("from Cidades where estados.id = " 
 					+ estado.getId(), Cidades.class);
 			
@@ -228,17 +231,17 @@ public class PeopleBeanJPA implements Serializable {
 		}
 	}
 	
-	public void editar() {
+	public String editar() {
 		if (people.getCidades() != null) {
 			
 			Estados estado = people.getCidades().getEstados();
 			people.setEstados(estado);
 			
-			/*List<Cidades> cidades = JPAUtil.getEntityManager()
+			/*List<Cidades> cidades = jpaUtil.getEntityManager()
 					.createQuery("from Cidades where estados.id = " 
 					+ estado.getId()).getResultList();*/
 			
-			TypedQuery<Cidades> cidadesQuery = JPAUtil.getEntityManager()
+			TypedQuery<Cidades> cidadesQuery = jpaUtil.getEntityManager()
 					.createQuery("from Cidades where estados.id = " 
 					+ estado.getId(), Cidades.class);
 			
@@ -248,9 +251,9 @@ public class PeopleBeanJPA implements Serializable {
 			for (Cidades cidade : cidades) {
 				selectItemsCidade.add(new SelectItem(cidade, cidade.getNome()));
 			}
-			setCidades(selectItemsCidade);
-			
+			setCidades(selectItemsCidade);			
 		}
+		return "";
 	}
 	
 	public String access() {		

@@ -13,7 +13,7 @@ import javax.persistence.TypedQuery;
 
 import br.com.tadeudeveloper.systemregistrationslaunches.entities.Estados;
 import br.com.tadeudeveloper.systemregistrationslaunches.entities.People;
-import br.com.tadeudeveloper.systemregistrationslaunches.util.JPAUtil;
+//import br.com.tadeudeveloper.systemregistrationslaunches.util.JPAUtil;
 
 @Named
 public class InterfacePessoaDAOImpl implements InterfacePessoaDAO, Serializable {	
@@ -39,9 +39,9 @@ public class InterfacePessoaDAOImpl implements InterfacePessoaDAO, Serializable 
 	public List<SelectItem> listarEstados() {
 		List<SelectItem> selectItems = new ArrayList<>();
 		
-		EntityManager entityManager = JPAUtil.getEntityManager();
-		EntityTransaction entityTransaction = entityManager.getTransaction();
-		entityTransaction.begin();
+		//EntityManager entityManager = JPAUtil.getEntityManager();
+		//EntityTransaction entityTransaction = entityManager.getTransaction();
+		//entityTransaction.begin();
 		
 		//List<Estados> estados = entityManager.createQuery("from Estados").getResultList();
 		
