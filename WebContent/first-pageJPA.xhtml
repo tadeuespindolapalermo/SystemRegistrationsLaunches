@@ -13,7 +13,7 @@
 	<h:body>
 		<ui:include src="/menu.xhtml" />
 		
-		<h:form id="formPeople" rendered="#{peopleBeanJPA.allowAccess('ADMIN')}"
+		<h:form id="formPeople" enctype="multipart/form-data" rendered="#{peopleBeanJPA.allowAccess('ADMIN')}"
 		style="margin-left: 35%;">		
 		
 			<h:messages infoStyle="color:green" errorStyle="color:red" warnStyle="color:yellow"/>
@@ -24,7 +24,10 @@
 				</f:facet>
 				
 				<h:outputLabel value="Id:"/>
-				<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true" />			
+				<h:inputText value="#{peopleBeanJPA.people.id}" readonly="true" />	
+				
+				<h:outputLabel value="Foto:"/>
+				<h:inputFile id="foto" value="#{peopleBeanJPA.arquivoFoto}"></h:inputFile>		
 				
 				<h:outputLabel value="Name:"/>
 				<h:inputText value="#{peopleBeanJPA.people.name}" required="false"
@@ -198,6 +201,14 @@
 				<h:column>
 					<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{p.id}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Photo</f:facet>
+					<h:commandLink actionListener="#{peopleBeanJPA.download}">
+						<h:graphicImage width="60" height="60" value="#{p.fotoIconBase64}" />
+						<f:param name="fileDownloadId" value="#{p.id}"/>
+					</h:commandLink>
 				</h:column>
 				
 				<h:column>

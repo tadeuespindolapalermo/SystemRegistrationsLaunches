@@ -79,4 +79,13 @@ public class GenericDAO<T> implements Serializable {
 		return returnList;
 	}
 	
+	public T consultar(Class<T> entidade, String codigo) {
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		
+		T objeto = (T) entityManager.find(entidade, Long.parseLong(codigo));
+		entityTransaction.commit();
+		return objeto;
+	}
+	
 }
